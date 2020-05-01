@@ -29,7 +29,7 @@
    (:file "groups")
    (:file "concept-mappings")
    (:file "correspondences")
-   ;; (:file "replacements")
+   (:file "replacements")
    ;; (:file "breakers")
    ;; (:file "coderack")
    ;; (:file "rule")
