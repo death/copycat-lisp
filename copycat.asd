@@ -33,7 +33,7 @@
    (:file "breakers")
    (:file "coderack")
    (:file "rule")
-   ;; (:file "answer")
+   (:file "answer")
    ;; (:file "workspace-object-formulas")
    ;; (:file "workspace-structure-formulas")
    ;; (:file "formulas")
