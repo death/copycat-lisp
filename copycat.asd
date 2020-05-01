@@ -28,7 +28,7 @@
    (:file "bonds")
    (:file "groups")
    (:file "concept-mappings")
-   ;; (:file "correspondences")
+   (:file "correspondences")
    ;; (:file "replacements")
    ;; (:file "breakers")
    ;; (:file "coderack")

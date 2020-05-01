@@ -3,7 +3,7 @@
 ;                  correspondences.
 ;---------------------------------------------
 
-(in-package 'user)
+(in-package #:copycat)
 
 (defflavor correspondence
     (obj1 obj2
@@ -95,16 +95,16 @@
   (if* (and (typep obj1 'group) (typep obj2 'group))
    then (loop for cm in (get-concept-mapping-list obj1 obj2
 			    (send obj1 :bond-descriptions)
-			    (send obj2 :bond-descriptions)) do
-	      (send c :add-accessory-concept-mapping cm)
-	      (if* (send cm :slippage?)
-               then (send c :add-accessory-concept-mapping
-			  (send cm :symmetric-version)))))
+			    (send obj2 :bond-descriptions))
+              do (send c :add-accessory-concept-mapping cm)
+	         (if* (send cm :slippage?)
+                    then (send c :add-accessory-concept-mapping
+			         (send cm :symmetric-version)))))
 
   ; Activate the correspondence's label.
-  (loop for cm in (send c :concept-mapping-list) do
-	(if* (send cm :label)
-         then (send (send cm :label) :activate-from-workspace)))
+  (loop for cm in (send c :concept-mapping-list)
+        do (if* (send cm :label)
+              then (send (send cm :label) :activate-from-workspace)))
 
   (if* %workspace-graphics% then (send c :draw)))
 
@@ -170,16 +170,16 @@
   ; Decide probabilistically whether to go ahead based on the slippability of
   ; the concept-mappings.
   (setq concept-mappings-possible?
-	(loop for cm in concept-mapping-list do
-              (setq slippage-probability
-	            (get-temperature-adjusted-probability
+	(loop for cm in concept-mapping-list
+              do (setq slippage-probability
+	               (get-temperature-adjusted-probability
 			(/ (send cm :slippability) 100)))
 
-              (if* %verbose%
-               then (format t "About to decide on concept mapping: ")
-	            (send cm :print) (format t "~%")
-	            (format t "Slippage probability is ~a~&"
-			    slippage-probability))
+                 (if* %verbose%
+                    then (format t "About to decide on concept mapping: ")
+	                 (send cm :print) (format t "~%")
+	                 (format t "Slippage probability is ~a~&"
+			           slippage-probability))
               when (eq (flip-coin slippage-probability) 'heads)
 	      return t
 	      finally (return nil)))
@@ -574,7 +574,7 @@
 	    :activate-from-workspace)
         (setq concept-mappings-to-be-added
 	      (loop for cm in (send proposed-correspondence
-				    :concept-mapping-list) do
+				    :concept-mapping-list)
                     when (and (not (send existing-correspondence
 			                 :concept-mapping-present? cm)))
 	                  collect cm))
