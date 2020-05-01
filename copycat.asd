@@ -30,7 +30,7 @@
    (:file "concept-mappings")
    (:file "correspondences")
    (:file "replacements")
-   ;; (:file "breakers")
+   (:file "breakers")
    ;; (:file "coderack")
    ;; (:file "rule")
    ;; (:file "answer")
