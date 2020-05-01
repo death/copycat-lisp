@@ -2,7 +2,7 @@
 ; INITIALIZATION: This file contains functions for initializing the program.
 ;---------------------------------------------
 
-(in-package 'user)
+(in-package #:copycat)
 
 (defun init-ccat (initial-string-input modified-string-input
 		  target-string-input &key random-state no-graphics
@@ -188,7 +188,7 @@
 		       :length i-length
 		       :object-spaces i-length
 		       :num-of-bonds-to-scan-distribution
-  	                (loop for i from 0 to (- i-length 1) do
+  	                (loop for i from 0 to (- i-length 1)
 			      collect i)
 	               :pname "initial string"))
 
@@ -225,7 +225,7 @@
 		       :length t-length
 		       :object-spaces t-length
 		       :num-of-bonds-to-scan-distribution
-  	                (loop for i from 0 to (- t-length 1) do
+  	                (loop for i from 0 to (- t-length 1)
 			      collect i)
                        :pname "target string"))
 
