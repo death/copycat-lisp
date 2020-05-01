@@ -22,7 +22,7 @@
    (:file "run")
    (:file "slipnet-def")
    (:file "slipnet-links")
-   ;; (:file "slipnet-functions")
+   (:file "slipnet-functions")
    ;; (:file "slipnet-graphics")
    ;; (:file "descriptions")
    ;; (:file "bonds")
