@@ -21,7 +21,7 @@
    (:file "initialization")
    (:file "run")
    (:file "slipnet-def")
-   ;; (:file "slipnet-links")
+   (:file "slipnet-links")
    ;; (:file "slipnet-functions")
    ;; (:file "slipnet-graphics")
    ;; (:file "descriptions")
