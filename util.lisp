@@ -368,22 +368,22 @@
 ;---------------------------------------------
 
 (defun quick-pause ()
-    (loop for i from 1 to 1000 do ()))
+  (sleep .01))
 
 ;---------------------------------------------
 
 (defun medium-pause ()
-    (loop for i from 1 to 100000 do ()))
+  (sleep .1))
 
 ;---------------------------------------------
 
 (defun long-pause ()
-    (loop for i from 1 to 200000 do ()))
+  (sleep .2))
 
 ;---------------------------------------------
 
 (defun very-long-pause ()
-    (loop for i from 1 to 10 do (long-pause)))
+  (sleep 2))
 
 ;---------------------------------------------
 
@@ -454,7 +454,7 @@
 ;---------------------------------------------
 
 (defun flavor-type (instance)
-  (flavors::flavor-type-of instance))
+  (type-of instance))
 
 ;---------------------------------------------
 

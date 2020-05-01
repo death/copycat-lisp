@@ -9,4 +9,6 @@
   :components
   ((:file "packages")
    (:file "ifstar")
-   (:file "flavors")))
+   (:file "flavors")
+   (:file "specials")
+   (:file "util")))
