@@ -2,7 +2,7 @@
 ; FORMULAS: This file contains some general formulas used in Copycat.
 ;---------------------------------------------
 
-(in-package 'user)
+(in-package #:copycat)
 
 (defun update-temperature (&aux rule-weakness)
 ; Updates the temperature, which is a function of the average total-unhappiness
