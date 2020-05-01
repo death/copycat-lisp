@@ -8,7 +8,14 @@
 
 (defmacro defflavor (name (&rest slots) (&rest super) &rest props)
   (let ((slot-defs
-          (loop for slot-name in slots
+          (loop with no-initform = (gensym)
+                for slot-spec in slots
+                for slot-name = (etypecase slot-spec
+                                  (symbol slot-spec)
+                                  (cons (car slot-spec)))
+                for slot-initform = (if (consp slot-spec)
+                                        (cadr slot-spec)
+                                        no-initform)
                 for has-reader = (member :gettable-instance-variables props)
                 for has-writer = (member :settable-instance-variables props)
                 for has-initarg = (member :initable-instance-variables props)
@@ -22,7 +29,9 @@
                                       (has-writer
                                        (list :writer `(setf ,slot-fun-name))))
                                 (when has-initarg
-                                  (list :initarg (keywordize slot-name)))))))
+                                  (list :initarg (keywordize slot-name)))
+                                (when (not (eq no-initform slot-initform))
+                                  (list :initform slot-initform))))))
     `(eval-when (:compile-toplevel :load-toplevel :execute)
        (sb-mop:finalize-inheritance
         (defclass ,name (,@super)

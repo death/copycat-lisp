@@ -146,3 +146,6 @@
 (defvar *initially-clamped-slipnodes*)
 
 (defvar *slipnet-initialized*)
+
+(defvar *rule*)
+(defvar *snag-structure-list*)

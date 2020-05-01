@@ -13,4 +13,6 @@
    (:file "flavors")
    (:file "specials")
    (:file "util")
-   (:file "constants")))
+   (:file "constants")
+   (:file "workspace")
+   (:file "workspace-structures")))

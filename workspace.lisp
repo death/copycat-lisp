@@ -3,7 +3,7 @@
 ;            workspace.
 ;---------------------------------------------
 
-(in-package 'user)
+(in-package #:copycat)
 
 (defflavor workspace
 ; The workspace contains a list of replacements (mappings from the

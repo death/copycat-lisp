@@ -5,7 +5,7 @@
 ;                        correspondences.
 ;---------------------------------------------
 
-(in-package 'user)
+(in-package #:copycat)
 
 (defflavor workspace-structure
     (string ; The string the structure is in.
