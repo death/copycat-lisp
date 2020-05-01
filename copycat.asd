@@ -27,7 +27,7 @@
    (:file "descriptions")
    (:file "bonds")
    (:file "groups")
-   ;; (:file "concept-mappings")
+   (:file "concept-mappings")
    ;; (:file "correspondences")
    ;; (:file "replacements")
    ;; (:file "breakers")
