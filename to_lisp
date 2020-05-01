@@ -1,5 +1,0 @@
-#!/bin/bash
-
-for file in *.l; do
-    mv "$file" "$(basename "$file" .l).lisp"
-done
