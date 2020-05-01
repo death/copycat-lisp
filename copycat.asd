@@ -8,7 +8,7 @@
   :serial t
   :components
   ((:file "packages")
-   (:file "ifstar")
+   (:file "lucid-util")
    (:file "flavors")
    (:file "specials")
    (:file "util")

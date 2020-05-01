@@ -9,7 +9,7 @@
 (defun keywordize (symbol)
   (intern (symbol-name symbol) :keyword))
 
-(defun symbolicate (&rest parts)
+(defun append-symbols (&rest parts)
   (intern (apply #'concatenate 'string (mapcar #'string parts))))
 
 (defmacro defflavor (name (&rest slots) (&rest super) &rest props)
@@ -19,7 +19,7 @@
                 for has-writer = (member :settable-instance-variables props)
                 for has-initarg = (member :initable-instance-variables props)
                 for slot-fun-name = (when (or has-reader has-writer)
-                                      (symbolicate name '- slot-name))
+                                      (append-symbols name '- slot-name))
                 collect (append (list slot-name)
                                 (cond ((and has-reader has-writer)
                                        (list :accessor slot-fun-name))
