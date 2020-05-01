@@ -50,5 +50,5 @@
    ;; (:file "temperature-graphics")
    ;; (:file "ccat-bar-graph")
    ;; (:file "ccat-menu")
-   ;; (:file "copystat")
+   (:file "copystat")
    ))
