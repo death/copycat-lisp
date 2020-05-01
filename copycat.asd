@@ -32,7 +32,7 @@
    (:file "replacements")
    (:file "breakers")
    (:file "coderack")
-   ;; (:file "rule")
+   (:file "rule")
    ;; (:file "answer")
    ;; (:file "workspace-object-formulas")
    ;; (:file "workspace-structure-formulas")
