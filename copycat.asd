@@ -20,7 +20,7 @@
    (:file "workspace-objects")
    (:file "initialization")
    (:file "run")
-   ;; (:file "slipnet-def")
+   (:file "slipnet-def")
    ;; (:file "slipnet-links")
    ;; (:file "slipnet-functions")
    ;; (:file "slipnet-graphics")
