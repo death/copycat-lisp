@@ -34,7 +34,7 @@
    (:file "coderack")
    (:file "rule")
    (:file "answer")
-   ;; (:file "workspace-object-formulas")
+   (:file "workspace-object-formulas")
    ;; (:file "workspace-structure-formulas")
    ;; (:file "formulas")
    ;; (:file "graphics-util")
