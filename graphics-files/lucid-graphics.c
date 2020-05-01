@@ -107,7 +107,7 @@ window_height()
 clear_window()
 {
   pw_writebackground(pw, origin_x, origin_y, screen_width, screen_height, PIX_CLR);
-}	
+}
 
 /************************************************************/
 
@@ -183,7 +183,7 @@ int x1, y1, x2, y2, op, dash_len, space_len;
 		translated_pw_vector(dx1, dy1, dx2, dy2, op, 1);
 	}
 	return(0);
-}		
+}
 
 /************************************************************/
 
@@ -243,7 +243,7 @@ int x1, y1, x2, y2, op, jag_len, line_len;
 		translated_pw_vector(dx2, dy1, dx2, dy2, op, 1);
 	}
 	return(0);
-}		
+}
 
 /************************************************************/
 
@@ -304,7 +304,7 @@ int number;
 {
 	struct pr_size prs, pf_textwidth();
 	char buffer[20];
-	
+
 	(void) sprintf(buffer,"%d",number);
 	prs = pf_textwidth(strlen(buffer),font,buffer);
 	return(prs.x);
@@ -317,7 +317,7 @@ int x, y, op;
 char buffer[20];
 {
   pw_text(pw, (x + origin_x), (y + origin_y), op, font, buffer);
-}  
+}
 
 /************************************************************/
 
@@ -405,8 +405,8 @@ int x, y, limit, op, number;
 	len = strlen(text);
 	i = text_length(text);
 	if (i > limit) {
-		len = (len * limit) / i;	
-		while (len-- > 0) 
+		len = (len * limit) / i;
+		while (len-- > 0)
 			*b++ = *text++;
 		*b = 0;
 		translated_pw_text(x, y, op, buf);
@@ -452,8 +452,8 @@ char *text;
 	len = strlen(text);
 	i = text_length(text);
 	if (i > limit) {
-		len = (len * limit) / i;	
-		while (len-- > 0) 
+		len = (len * limit) / i;
+		while (len-- > 0)
 			*b++ = *text++;
 		*b = 0;
 		translated_pw_text(x, y, op, buf);
@@ -561,7 +561,7 @@ xor_point(x, y)
 int x, y;
 {
   op_point(x, y, get_drawing_op(op_invert_area));
-}  
+}
 
 /************************************************************/
 
@@ -624,7 +624,7 @@ int_sqrt(num)
 int num;
 {
 	int x, old_x, counter, old_old_x;
-	
+
 	x = num;
 	old_x = num;
 	old_old_x = -1;
@@ -688,16 +688,16 @@ int x1, x2, width, op;
 	end = x2;
 	old_x = counter;
 	old_y = ((a * (counter * counter)) + (b * counter) + c) / denom;
-	while (counter < end) 
+	while (counter < end)
 	{
 		counter = counter + 5;  /* 5 is a good value for the parabola detail */
-		if (counter > end) 
+		if (counter > end)
 			counter = end;
 		new_y = ((a * (counter * counter)) + (b * counter) + c) / denom;
 		yy1 = old_y;
 		yy2 = new_y;
 		j = 1;
-		while (j++ <= width) 
+		while (j++ <= width)
 		{
 			op_line(old_x, yy1, counter, yy2, op);
 			yy1++;
@@ -747,17 +747,17 @@ int x1, x2, width, dash_length, space_length, op;
 	old_x = counter;
 	old_y = ((a * (counter * counter)) + (b * counter) + c) / denom;
 	skip_counter = space_length;
-        while (counter < end) 
+        while (counter < end)
 	{
-          counter = counter + dash_length; 
+          counter = counter + dash_length;
           skip_counter = skip_counter - 1;
-          if (counter > end) 
+          if (counter > end)
 	    counter = end;
  	  new_y = ((a * (counter * counter)) + (b * counter) + c) / denom;
 	  yy1 = old_y;
 	  yy2 = new_y;
 	  j = 1;
-	  while (j++ <= width) 
+	  while (j++ <= width)
 	  {
   	    if (skip_counter == 0)
 	    {
@@ -804,8 +804,8 @@ int x1, x2, width, dash_length, space_length;
 draw_circle_arc(ctr_x, ctr_y, radius, begin_angle, end_angle)
 int ctr_x, ctr_y, radius, begin_angle, end_angle;
 
-{  
-    int  theta, int_x_coord, int_y_coord, 
+{
+    int  theta, int_x_coord, int_y_coord,
          int_old_x_coord, int_old_y_coord;
 
     float init_rad_angle, rad_angle, x_coord, y_coord,
@@ -823,8 +823,8 @@ int ctr_x, ctr_y, radius, begin_angle, end_angle;
      int_old_x_coord = old_x_coord;
      int_old_y_coord = old_y_coord;
 
-    for (theta = begin_angle; 
-         theta <= end_angle; 
+    for (theta = begin_angle;
+         theta <= end_angle;
          theta = theta + STEP)
     {
         rad_angle = 3.1416 * theta / 180.0;
@@ -833,7 +833,7 @@ int ctr_x, ctr_y, radius, begin_angle, end_angle;
         int_x_coord = x_coord;
         int_y_coord = y_coord;
 
-        op_line(int_x_coord, int_y_coord, 
+        op_line(int_x_coord, int_y_coord,
                 int_old_x_coord, int_old_y_coord, PIX_SRC);
 
 
@@ -847,8 +847,8 @@ int ctr_x, ctr_y, radius, begin_angle, end_angle;
 
 erase_circle_arc(ctr_x, ctr_y, radius, begin_angle, end_angle)
 int ctr_x, ctr_y, radius, begin_angle, end_angle;
-{  
-    int  theta, int_x_coord, int_y_coord, 
+{
+    int  theta, int_x_coord, int_y_coord,
          int_old_x_coord, int_old_y_coord;
 
     float init_rad_angle, rad_angle, x_coord, y_coord,
@@ -866,8 +866,8 @@ int ctr_x, ctr_y, radius, begin_angle, end_angle;
      int_old_x_coord = old_x_coord;
      int_old_y_coord = old_y_coord;
 
-    for (theta = begin_angle; 
-         theta <= end_angle; 
+    for (theta = begin_angle;
+         theta <= end_angle;
          theta = theta + STEP)
     {
         rad_angle = 3.1416 * theta / 180.0;
@@ -876,7 +876,7 @@ int ctr_x, ctr_y, radius, begin_angle, end_angle;
         int_x_coord = x_coord;
         int_y_coord = y_coord;
 
-        op_line(int_x_coord, int_y_coord, 
+        op_line(int_x_coord, int_y_coord,
                 int_old_x_coord, int_old_y_coord, PIX_NOT(PIX_SRC) & PIX_DST);
 
 

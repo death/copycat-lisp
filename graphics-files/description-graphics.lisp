@@ -4,9 +4,9 @@
 
 (in-package 'user)
 
-(defflavor description-graphics-obj 
+(defflavor description-graphics-obj
     (x y obj name parent (previous-font %irrelevant-description-font%))
-    ()    
+    ()
     :gettable-instance-variables
     :settable-instance-variables
     :initable-instance-variables)
@@ -22,9 +22,9 @@
 
 (defmethod (description :init-graphics) (obj)
   (send self :set-graphics-obj
-	(make-instance 'description-graphics-obj 
+	(make-instance 'description-graphics-obj
 	    :x (send (send obj :graphics-obj) :description-x)
-	    :y (- (send (send obj :graphics-obj) :description-y) 
+	    :y (- (send (send obj :graphics-obj) :description-y)
 	          (* %space-between-descriptions% (1+ description-number)))
 	    :name (send (send self :descriptor) :cm-name)
             :parent self
@@ -35,7 +35,7 @@
 (defmethod (description-graphics-obj :draw) ()
   (if* (not (eq (send parent :description-type) plato-length))
    then (send self :erase)
-        (if* (send parent :relevant?) 
+        (if* (send parent :relevant?)
          then (set-font %relevant-description-font%)
               (send self :set-previous-font %relevant-description-font%)
          else (set-font %irrelevant-description-font%)
@@ -80,4 +80,3 @@
         (send graphics-obj :erase)))
 
 ;---------------------------------------------
-

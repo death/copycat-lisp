@@ -14,7 +14,7 @@
 ;---------------------------------------------
 
 (defmethod (replacement-graphics-obj :intensity) ()
-; For now replacements are always drawn at light intensity. 
+; For now replacements are always drawn at light intensity.
   %light-intensity%)
 
 ;---------------------------------------------
@@ -29,8 +29,8 @@
 
 ;---------------------------------------------
 
-(defmethod (replacement :init-graphics) (&aux left-x left-y right-x right-y 
-			                   x1 y1 x2 y2 x3 y3 parabola-height 
+(defmethod (replacement :init-graphics) (&aux left-x left-y right-x right-y
+			                   x1 y1 x2 y2 x3 y3 parabola-height
 					   new-replacement-graphics-obj)
   (setq left-x (send (send obj1 :graphics-obj) :replacement-x)
         left-y (send (send obj1 :graphics-obj) :replacement-y)
@@ -71,4 +71,3 @@
   (send graphics-obj :erase))
 
 ;---------------------------------------------
-

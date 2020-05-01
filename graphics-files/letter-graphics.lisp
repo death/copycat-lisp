@@ -4,10 +4,10 @@
 
 (in-package 'user)
 
-(defflavor letter-graphics-obj 
+(defflavor letter-graphics-obj
     (x y  ; Coordinates for letter.
      parent ; Letter this graphics object represents
-     bond-left-x bond-right-x bond-y  ; Coordinates for bonds 
+     bond-left-x bond-right-x bond-y  ; Coordinates for bonds
                                                   ; attached to this letter.
      replacement-x replacement-y ; Coordinates for replacements attached to
                                  ; this letter.
@@ -17,7 +17,7 @@
 
      description-x description-y) ; Coordinates for descriptions attached to
                                   ; this letter.
-    ()    
+    ()
     :gettable-instance-variables
     :settable-instance-variables
     :initable-instance-variables)
@@ -35,7 +35,3 @@
 
 (defmethod (letter :draw) ()
   (send graphics-obj :draw))
-
-
-	
-  

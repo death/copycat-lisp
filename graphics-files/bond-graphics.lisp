@@ -6,7 +6,7 @@
 
 ;---------------------------------------------
 
-(defflavor bond-graphics-obj (from-obj to-obj string (drawn? nil) 
+(defflavor bond-graphics-obj (from-obj to-obj string (drawn? nil)
                               left-obj right-obj x1 y1 x2 y2 x3 y3 parent)
   ()
   :gettable-instance-variables
@@ -31,10 +31,10 @@
 
 ;---------------------------------------------
 
-(defun draw-bond-grope (from-obj to-obj 
-			    &aux left-obj right-obj x1 y1 x2 y2 x-mid y-mid) 
+(defun draw-bond-grope (from-obj to-obj
+			    &aux left-obj right-obj x1 y1 x2 y2 x-mid y-mid)
 ; Draws groping feelers coming from the two objects.
-  (if* (< (send from-obj :left-string-position) 
+  (if* (< (send from-obj :left-string-position)
 	  (send to-obj :left-string-position))
    then (setq left-obj from-obj)
         (setq right-obj to-obj)
@@ -60,56 +60,56 @@
 
 ;---------------------------------------------
 
-(defmethod (workspace-string :equal-or-higher-proposed-bond-drawn?) 
+(defmethod (workspace-string :equal-or-higher-proposed-bond-drawn?)
            (proposed-bond)
 ; Returns t if there is already a proposed bond drawn whose proposal-level
-; is equal to or higher than that of the given proposed bond.  Otherwise, 
+; is equal to or higher than that of the given proposed bond.  Otherwise,
 ; returns nil.
-  (loop for r 
-	in (remove proposed-bond 
-	           (aref proposed-bond-array 
-		         (send (send proposed-bond :from-obj) 
+  (loop for r
+	in (remove proposed-bond
+	           (aref proposed-bond-array
+		         (send (send proposed-bond :from-obj)
 			       :string-number)
-		         (send (send proposed-bond :to-obj) 
-			       :string-number))) 
-	when (and (send (send r :graphics-obj) :drawn?) 
-		  (>= (send r :proposal-level) 
+		         (send (send proposed-bond :to-obj)
+			       :string-number)))
+	when (and (send (send r :graphics-obj) :drawn?)
+		  (>= (send r :proposal-level)
 		      (send proposed-bond :proposal-level)))
 	return t
 	finally (return nil)))
-							   
+
 
 ;---------------------------------------------
 
 (defmethod (workspace-string :higher-proposed-bond-drawn?) (proposed-bond)
 ; Returns t if there is already a proposed bond drawn whose proposal-level
 ; is higher than that of the given proposed-bond.  Otherwise, returns nil.
-  (loop for r 
-	in (remove proposed-bond 
-	           (aref proposed-bond-array 
-			 (send (send proposed-bond :from-obj) 
+  (loop for r
+	in (remove proposed-bond
+	           (aref proposed-bond-array
+			 (send (send proposed-bond :from-obj)
 			       :string-number)
-		         (send (send proposed-bond :to-obj) 
-			       :string-number))) 
-	when (and (send (send r :graphics-obj) :drawn?) 
-		  (> (send r :proposal-level) 
+		         (send (send proposed-bond :to-obj)
+			       :string-number)))
+	when (and (send (send r :graphics-obj) :drawn?)
+		  (> (send r :proposal-level)
 		     (send proposed-bond :proposal-level)))
 	return t
 	finally (return nil)))
-							  
+
 ;---------------------------------------------
 
 (defmethod (bond-graphics-obj :draw-spline) ()
 ; Draws the parabola representing this bond.
   (if* (< (send parent :proposal-level) %built%)
-   then (draw-dashed-parabola x1 y1 x2 y2 x3 y3 1 
-	                      (send self :get-dash-length) 
+   then (draw-dashed-parabola x1 y1 x2 y2 x3 y3 1
+	                      (send self :get-dash-length)
 			      (send self :get-space-length))
    else (draw-parabola x1 y1 x2 y2 x3 y3 (send self :intensity)))
    (cond ((eq (send parent :direction-category) plato-left)
           (draw-bond-arrow x2 y2 'left (send parent :proposal-level)))
-         ((eq (send parent :direction-category) plato-right) 
-          (draw-bond-arrow 
+         ((eq (send parent :direction-category) plato-right)
+          (draw-bond-arrow
 	      (+ x2 5) y2 'right (send parent :proposal-level))))
   (send self :set-drawn? t))
 
@@ -118,14 +118,14 @@
 (defmethod (bond-graphics-obj :erase-spline) ()
 ; Erases the parabola representing this bond.
   (if* (< (send parent :proposal-level) %built%)
-   then (erase-dashed-parabola x1 y1 x2 y2 x3 y3 1 
+   then (erase-dashed-parabola x1 y1 x2 y2 x3 y3 1
 	                       (send self :get-dash-length)
 			       (send self :get-space-length))
    else (erase-parabola x1 y1 x2 y2 x3 y3  (send self :intensity)))
    (cond ((eq (send parent :direction-category) plato-left)
           (erase-bond-arrow x2 y2 'left (send parent :proposal-level)))
-         ((eq (send parent :direction-category) plato-right) 
-          (erase-bond-arrow 
+         ((eq (send parent :direction-category) plato-right)
+          (erase-bond-arrow
 	      (+ x2 5) y2 'right (send parent :proposal-level))))
   (send self :set-drawn? nil))
 
@@ -137,85 +137,85 @@
 
 ;---------------------------------------------
 
-(defmethod (bond-graphics-obj :erase) (&aux other-proposed-bonds 
+(defmethod (bond-graphics-obj :erase) (&aux other-proposed-bonds
 		                            highest-level-proposed-bond)
 ; Erase only if already drawn.
-  (if* drawn? 
+  (if* drawn?
    then (send self :erase-spline)
         ; Now draw in the next-highest-level proposed bond.
         (setq other-proposed-bonds
-	      (remove parent 
-		      (aref (send string :proposed-bond-array) 
+	      (remove parent
+		      (aref (send string :proposed-bond-array)
 	                     (send from-obj :string-number)
 			     (send to-obj :string-number))))
         ; If there is still at least one proposed bond pending,
         ; draw the one with the highest proposal level.
-        (if* other-proposed-bonds  
+        (if* other-proposed-bonds
          then (setq highest-level-proposed-bond
-	           (nth (list-max-position 
-			    (send-method-to-list 
-				other-proposed-bonds 
+	           (nth (list-max-position
+			    (send-method-to-list
+				other-proposed-bonds
 				:proposal-level))
    		        other-proposed-bonds))
-              (send (send highest-level-proposed-bond 
+              (send (send highest-level-proposed-bond
 			  :graphics-obj) :draw-spline))))
-	  
+
 ;---------------------------------------------
 
 (defmethod (bond-graphics-obj :draw-proposed) ()
 ; First see if this bond should be drawn.  Only draw proposed bonds.
 ; Don't draw anything if there is already a bond drawn or if a
 ; proposed bond of equal or higher proposal level is already drawn.
-  (if* (and (send self :proposed?) 
+  (if* (and (send self :proposed?)
 	    (not (or (send string :bond-present? parent)
-	             (send string :equal-or-higher-proposed-bond-drawn? 
+	             (send string :equal-or-higher-proposed-bond-drawn?
 		                  parent))))
    then  ;If anything else is drawn then erase it.
-        (loop for p 
+        (loop for p
 	      in (aref (send string :proposed-bond-array)
    	  	       (send from-obj :string-number)
 		       (send to-obj :string-number))
-              when (send p :drawn?) do 
-	      (send p :erase-spline) 
+              when (send p :drawn?) do
+	      (send p :erase-spline)
 	      (return))
         (send self :draw-spline)))
 
 ;---------------------------------------------
 
-(defmethod (bond-graphics-obj :erase-proposed) 
+(defmethod (bond-graphics-obj :erase-proposed)
            (&aux other-proposed-bonds highest-level-proposed-bond)
 ; Only erase if proposed, already drawn, if there isn't a built
-; bond present and there isn't a higher-level bond present. 
+; bond present and there isn't a higher-level bond present.
   (if* (and (send self :proposed?) drawn?
     	    (not (or (send string :bond-present? parent)
-	             (send string :higher-proposed-bond-drawn? 
+	             (send string :higher-proposed-bond-drawn?
 		                  parent))))
    then (send self :erase-spline)
         ; Now draw in the next-highest-level proposed bond.
         (setq other-proposed-bonds
-	      (remove parent 
-		      (aref (send string :proposed-bond-array) 
+	      (remove parent
+		      (aref (send string :proposed-bond-array)
                       (send from-obj :string-number)
                       (send to-obj :string-number))))
         ; If there is still at least one proposed bond pending,
         ; draw the one with the highest proposal level.
-        (if* other-proposed-bonds  
+        (if* other-proposed-bonds
          then (setq highest-level-proposed-bond
-	            (nth (list-max-position 
-			     (send-method-to-list 
-				 other-proposed-bonds 
+	            (nth (list-max-position
+			     (send-method-to-list
+				 other-proposed-bonds
 				 :proposal-level))
    		         other-proposed-bonds))
-              (send (send highest-level-proposed-bond 
+              (send (send highest-level-proposed-bond
 			  :graphics-obj) :draw-spline))))
-	  
+
 ;---------------------------------------------
 
 (defmethod (bond-graphics-obj :flash) (&aux num-of-flashes)
-  (if* (eq %graphics-rate% 'fast) 
+  (if* (eq %graphics-rate% 'fast)
    then (setq num-of-flashes 6)
    else (setq num-of-flashes 4))
-  (loop for i from 1 to num-of-flashes do 
+  (loop for i from 1 to num-of-flashes do
         (send self :erase-spline)
         (cond ((eq %graphics-rate% 'fast) (quick-pause))
 	      ((eq %graphics-rate% 'medium) (medium-pause))
@@ -224,34 +224,34 @@
         (cond ((eq %graphics-rate% 'fast) (quick-pause))
 	      ((eq %graphics-rate% 'medium) (medium-pause))
 	      ((eq %graphics-rate% 'slow) (medium-pause)))))
-	
+
 
 ;---------------------------------------------
 
 (defmethod (bond-graphics-obj :flash-proposed) ()
-; Don't flash if there is already a bond drawn or if a proposed bond 
-; of higher proposal level is already drawn.  
+; Don't flash if there is already a bond drawn or if a proposed bond
+; of higher proposal level is already drawn.
   (if* (not (or (send string :bond-present? parent)
 	       (send string :higher-proposed-bond-drawn? parent)))
    then (send self :flash)))
 
 ;---------------------------------------------
 
-(defmethod (bond :init-graphics) (&aux left-x left-y right-x right-y  
+(defmethod (bond :init-graphics) (&aux left-x left-y right-x right-y
 				       x1 y1 x2 y2 x3 y3 parabola-height
 				       new-bond-graphics-obj)
 ; Sets up the graphics object for this bond.
   (if* (eq bond-facet plato-letter-category)
    then (setq left-x (send (send left-obj :graphics-obj) :bond-right-x)
-              left-y (send (send left-obj :graphics-obj) :bond-y) 
+              left-y (send (send left-obj :graphics-obj) :bond-y)
               right-x (send (send right-obj :graphics-obj) :bond-left-x)
               right-y (send (send right-obj :graphics-obj) :bond-y))
-   else (setq left-x (send (send left-obj :graphics-obj) 
+   else (setq left-x (send (send left-obj :graphics-obj)
 			   :length-bond-right-x)
-              left-y (send (send left-obj :graphics-obj) :length-bond-y) 
-              right-x (send (send right-obj :graphics-obj) 
+              left-y (send (send left-obj :graphics-obj) :length-bond-y)
+              right-x (send (send right-obj :graphics-obj)
 			    :length-bond-left-x)
-              right-y (send (send right-obj :graphics-obj) 
+              right-y (send (send right-obj :graphics-obj)
 			    :length-bond-y)))
 
   (if* (eq direction-category plato-left)
@@ -279,17 +279,17 @@
 ;---------------------------------------------
 
 (defmethod (bond-graphics-obj :get-dash-length) ()
-  (if* (= (send parent :proposal-level) 1) 
+  (if* (= (send parent :proposal-level) 1)
    then %short-bond-dash-length%
    else %long-bond-dash-length%))
-       
+
 ;---------------------------------------------
 
 (defmethod (bond-graphics-obj :get-space-length) ()
-  (if* (= (send parent :proposal-level) 1) 
+  (if* (= (send parent :proposal-level) 1)
    then %long-bond-space-length%
    else %short-bond-space-length%))
-        
+
 ;---------------------------------------------
 
 (defun draw-bond-arrow (x y direction proposal-level)

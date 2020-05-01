@@ -1,5 +1,5 @@
 ;---------------------------------------------
-; WORKSPACE-GRAPHICS: This file contains graphics functions for the 
+; WORKSPACE-GRAPHICS: This file contains graphics functions for the
 ;                      workspace.
 ;---------------------------------------------
 
@@ -9,7 +9,7 @@
 
 (defun init-graphics-constants ()
 ; Initializes the various constants used in the graphics routines.
- 
+
   ; Width and height of visible part of the window.
   (setf %window-width% (- %graphics-viewport-width% 20))
 
@@ -21,18 +21,18 @@
 
   ; Y-TOP is the y-coordinate of the initial and modified strings;
   ; Y-BOTTOM is the y-coordinate of the target string.
-  (if* %demo-graphics% 
+  (if* %demo-graphics%
    then (setq %y-top% (round (* %window-height% .23)))
         (setq %y-bottom% (round (* %window-height% .48)))
    else (setq %y-top% (round (* %window-height% .2)))
         (setq %y-bottom% (round (* %window-height% .40))))
-  
+
   (setq i-vector (send *initial-string* :letter-vector))
   (setq m-vector (send *modified-string* :letter-vector))
   (setq t-vector (send *target-string* :letter-vector))
 
   (setq %left-side-space% ; Space to left of initial and target strings.
-	(round (/ %window-width% 15))) 
+	(round (/ %window-width% 15)))
   (setq %right-side-space% ; Space to right of modified and answer strings.
 	(round (/ %window-width% 15)))
   (setq %arrow-width% (round (/ %window-width% 6)))
@@ -41,26 +41,26 @@
 	(round (/ %window-width% 18)))
 
   (setq %string-width% ; The width of each of the three strings.
-	(round (/ (- %window-width% (+ %left-side-space% %right-side-space%) 
+	(round (/ (- %window-width% (+ %left-side-space% %right-side-space%)
 		     (* 2 %middle-space%) %arrow-width%) 2)))
 
   (setq %initial-space% ; Space between letters in the initial-string.
 	(if* (= (vsize i-vector) 1)
-	 then 0 
+	 then 0
 	 else (round (/ %string-width% (1- (vsize i-vector))))))
   (setq %modified-space% ; Space between letters in the modified-string.
 	(if* (= (vsize m-vector) 1)
-	 then 0 
+	 then 0
 	 else (round (/ %string-width% (1- (vsize m-vector))))))
   (setq %target-space% ; Space between letters in the target-string.
 	(if* (= (vsize t-vector) 1)
-         then 0 
+         then 0
 	 else (round (/ %string-width% (1- (vsize t-vector))))))
 
 
   ; Coordinates of the strings.
   (setq %initial-x% (+ %origin-x% %left-side-space%))
-  (setq %modified-x% (- (+ %initial-x% %string-width% 
+  (setq %modified-x% (- (+ %initial-x% %string-width%
 	                   (* 2 %middle-space%) %arrow-width%) 10))
   (setq %target-x% (+ %origin-x% %left-side-space%))
   (setq %answer-x% %modified-x%)
@@ -72,12 +72,12 @@
   (setq %coderack-x2% (+ %window-width% 6))
   (setq %coderack-y2% (+ %coderack-y1% 60))
   ; y-coord of top of separator line for codelet names.
-  (setq %codelet-name-top-y% %coderack-y2%)   
+  (setq %codelet-name-top-y% %coderack-y2%)
   ; y-coord of bottom of separator line for codelet names.
-  (setq %codelet-name-bottom-y% (+ %codelet-name-top-y% 40)) 
-                                                
+  (setq %codelet-name-bottom-y% (+ %codelet-name-top-y% 40))
+
   ; x-coordinate and y-coordinate of origin of Slipnet display
-  (setq %slipnet-x% %coderack-x1%) 
+  (setq %slipnet-x% %coderack-x1%)
   (if* %demo-graphics%
    then (setq %slipnet-y% (+ %y-bottom% 100))
    else (setq %slipnet-y% (+ %codelet-name-bottom-y% 25)))
@@ -86,16 +86,16 @@
   (setq %slipnet-height% (- %window-height% %slipnet-y% 2))
 
   ; Coordinates for temperature display
-  (if* %temperature-graphics% 
+  (if* %temperature-graphics%
    then (setq %temperature-display-x1% (+ %origin-x% 5))
         (setq %temperature-display-width% 15)
         (setq %temperature-display-y1% (- %y-top% 30))
-        (setq %temperature-display-x2% 
+        (setq %temperature-display-x2%
 	      (+ %temperature-display-x1% %temperature-display-width%))
         (setq %temperature-display-y2% %y-bottom%)
-        (setq %temperature-display-height% 
+        (setq %temperature-display-height%
 	      (- %temperature-display-y2% %temperature-display-y1%))
-        (setq %temperature-number-x% 
+        (setq %temperature-number-x%
 	      (+ %temperature-display-x2% 2))
 	(setq *old-temperature-string* nil))
 
@@ -137,7 +137,7 @@
   (set-font %relevant-concept-mapping-font%)
   (setq %concept-mapping-text-width% (text-length "aaaaaaaaaaaaaaaa"))
   (set-font %workspace-font%)
-   
+
   ; Constants for specifying the widths of lines.
 
   (setq %light-intensity% 1)
@@ -179,32 +179,32 @@
 
 ; Set up letter positions and draw letters.
   (loop for letter being the elements of i-vector do
-        (setq graphics-obj 
+        (setq graphics-obj
 	      (make-instance 'letter-graphics-obj))
-        (send graphics-obj :set-x 
-	      (+ %initial-x% 
-		 (* (send letter :left-string-position) 
+        (send graphics-obj :set-x
+	      (+ %initial-x%
+		 (* (send letter :left-string-position)
 		    %initial-space%)))
         (send graphics-obj :set-y %y-top%)
 	(send graphics-obj :set-parent letter)
-	(send graphics-obj :set-bond-left-x 
+	(send graphics-obj :set-bond-left-x
 	      (+ (send graphics-obj :x) %bond-left-x-offset%))
-	(send graphics-obj :set-bond-right-x 
+	(send graphics-obj :set-bond-right-x
 	      (+ (send graphics-obj :x) %bond-right-x-offset%))
-	(send graphics-obj :set-bond-y 
+	(send graphics-obj :set-bond-y
 	      (- (send graphics-obj :y) %bond-y-offset%))
-        (send graphics-obj :set-replacement-x 
-	      (+ (send graphics-obj :x) 
+        (send graphics-obj :set-replacement-x
+	      (+ (send graphics-obj :x)
 		 %replacement-x-offset%))
-        (send graphics-obj :set-replacement-y 
-	      (- (send graphics-obj :y) 
+        (send graphics-obj :set-replacement-y
+	      (- (send graphics-obj :y)
 		 %replacement-y-offset%))
-        (send graphics-obj :set-correspondence-x 
+        (send graphics-obj :set-correspondence-x
 	      (+ (send graphics-obj :x) 3))
-        (send graphics-obj :set-correspondence-y 
+        (send graphics-obj :set-correspondence-y
 	      (+ (send graphics-obj :y) 3))
         (send graphics-obj :set-description-x (+ (send graphics-obj :x) 10))
-        (send graphics-obj :set-description-y 
+        (send graphics-obj :set-description-y
 	      (- (send graphics-obj :bond-y) 8))
 	(send graphics-obj :draw)
         (send letter :set-graphics-obj graphics-obj))
@@ -214,60 +214,60 @@
   (draw-centered-text %arrow-x% %y-top% "--->" %arrow-width%)
 
   (loop for letter being the elements of m-vector do
-	(setq graphics-obj 
+	(setq graphics-obj
 	      (make-instance 'letter-graphics-obj))
-        (send graphics-obj :set-x 
-	      (+ %modified-x% 
-		 (* (send letter :left-string-position) 
+        (send graphics-obj :set-x
+	      (+ %modified-x%
+		 (* (send letter :left-string-position)
 		    %modified-space%)))
 	(send graphics-obj :set-y %y-top%)
 	(send graphics-obj :set-parent letter)
-	(send graphics-obj :set-bond-left-x 
+	(send graphics-obj :set-bond-left-x
 	      (+ (send graphics-obj :x) %bond-left-x-offset%))
-	(send graphics-obj :set-bond-right-x 
+	(send graphics-obj :set-bond-right-x
 	      (+ (send graphics-obj :x) %bond-right-x-offset%))
-	(send graphics-obj :set-bond-y 
+	(send graphics-obj :set-bond-y
 	      (- (send graphics-obj :y) %bond-y-offset%))
-        (send graphics-obj :set-replacement-x 
-	      (+ (send graphics-obj :x) 
+        (send graphics-obj :set-replacement-x
+	      (+ (send graphics-obj :x)
 		 %replacement-x-offset%))
-        (send graphics-obj :set-replacement-y 
-	      (- (send graphics-obj :y) 
+        (send graphics-obj :set-replacement-y
+	      (- (send graphics-obj :y)
 		 %replacement-y-offset%))
         (send graphics-obj :set-description-x (+ (send graphics-obj :x) 10))
-        (send graphics-obj :set-description-y 
+        (send graphics-obj :set-description-y
 	      (- (send graphics-obj :bond-y) 8))
 	(send graphics-obj :draw)
         (send letter :set-graphics-obj graphics-obj))
 
   (loop for letter being the elements of t-vector do
-	(setq graphics-obj 
+	(setq graphics-obj
 	      (make-instance 'letter-graphics-obj))
-        (send graphics-obj :set-x 
-	      (+ %target-x% 
-		 (* (send letter :left-string-position) 
+        (send graphics-obj :set-x
+	      (+ %target-x%
+		 (* (send letter :left-string-position)
 		    %target-space%)))
         (send graphics-obj :set-y %y-bottom%)
 	(send graphics-obj :set-parent letter)
-	(send graphics-obj :set-bond-left-x 
+	(send graphics-obj :set-bond-left-x
 	      (+ (send graphics-obj :x) %bond-left-x-offset%))
-	(send graphics-obj :set-bond-right-x 
+	(send graphics-obj :set-bond-right-x
 	      (+ (send graphics-obj :x) %bond-right-x-offset%))
-	(send graphics-obj :set-bond-y 
+	(send graphics-obj :set-bond-y
 	      (- (send graphics-obj :y) %bond-y-offset%))
-        (send graphics-obj :set-correspondence-x 
+        (send graphics-obj :set-correspondence-x
 	      (+ (send graphics-obj :x) 3))
-        (send graphics-obj :set-correspondence-y 
+        (send graphics-obj :set-correspondence-y
 	      (- (send graphics-obj :y) 10))
         (send graphics-obj :set-description-x (+ (send graphics-obj :x) 10))
-        (send graphics-obj :set-description-y 
+        (send graphics-obj :set-description-y
 	      (- (send graphics-obj :bond-y) 8))
 	(send graphics-obj :draw)
         (send letter :set-graphics-obj graphics-obj))
 
-  (draw-centered-text %arrow-x% %y-bottom% "--->" 
+  (draw-centered-text %arrow-x% %y-bottom% "--->"
                       %arrow-width%))
-  
+
 ;---------------------------------------------
 
 (defun display-workspace ()
@@ -275,7 +275,7 @@
 
   (set-font %workspace-font%)
 
-  ; Draw letters. 
+  ; Draw letters.
   (loop for letter in (send *initial-string* :letter-list) do
     (send letter :draw))
 
@@ -287,10 +287,10 @@
   (loop for letter in (send *target-string* :letter-list) do
     (send letter :draw))
 
-  (draw-centered-text %arrow-x% %y-bottom% "--->" 
+  (draw-centered-text %arrow-x% %y-bottom% "--->"
                       %arrow-width%)
 
-  (if* *answer-string* 
+  (if* *answer-string*
    then (loop for letter in (send *answer-string* :letter-list) do
               (send letter :draw)))
 
@@ -298,7 +298,7 @@
   (if* %description-graphics% then (display-descriptions))
 
   ; Draw proposed-bonds and bonds.
-  (loop for proposed-bond 
+  (loop for proposed-bond
 	in (send *initial-string* :proposed-bond-list) do
         (if* (send proposed-bond :drawn?)
 	 then (send proposed-bond :draw-proposed)))
@@ -306,55 +306,55 @@
   (loop for bond in (send *initial-string* :bond-list) do
         (if* (send bond :drawn?) then (send bond :draw)))
 
-  (loop for proposed-bond 
+  (loop for proposed-bond
 	in (send *target-string* :proposed-bond-list) do
-        (if* (send proposed-bond :drawn?) 
+        (if* (send proposed-bond :drawn?)
 	 then (send proposed-bond :draw-proposed)))
 
   (loop for bond in (send *target-string* :bond-list) do
         (if* (send bond :drawn?) then (send bond :draw)))
 
   ; Draw proposed-groups and groups.
-  (loop for proposed-group 
+  (loop for proposed-group
 	in (send *initial-string* :proposed-group-list) do
-        (if* (send proposed-group :drawn?) 
+        (if* (send proposed-group :drawn?)
 	 then (send proposed-group :draw-proposed)))
 
   (loop for group in (send *initial-string* :group-list) do
         (if* (send group :drawn?) then (send group :draw)))
 
-  (loop for proposed-group 
+  (loop for proposed-group
 	in (send *target-string* :proposed-group-list) do
-        (if* (send proposed-group :drawn?) 
+        (if* (send proposed-group :drawn?)
 	 then (send proposed-group :draw-proposed)))
 
   (loop for group in (send *target-string* :group-list) do
         (if* (send group :drawn?) then (send group :draw)))
 
   ; Draw replacements.
-  (loop for replacement 
+  (loop for replacement
 	in (send *workspace* :replacement-list) do (send replacement :draw))
 
   ; Draw proposed-correspondences and correspondences.
-  (loop for proposed-correspondence 
+  (loop for proposed-correspondence
 	in (send *workspace* :proposed-correspondence-list) do
-        (if* (send proposed-correspondence :drawn?) 
+        (if* (send proposed-correspondence :drawn?)
 	 then (send proposed-correspondence :draw-proposed)))
 
-  (loop for correspondence in (send *workspace* :correspondence-list) 
+  (loop for correspondence in (send *workspace* :correspondence-list)
 	when correspondence do
         (if* (send correspondence :drawn?) then (send correspondence :draw)))
 
   ; Draw rule and translated rule.
   (if* *rule* then (send *rule* :draw %rule-mode%))
-  (if* *translated-rule* 
+  (if* *translated-rule*
    then (send *translated-rule* :draw %translated-rule-mode%)))
 
 ;---------------------------------------------
 
 (defun erase-workspace ()
 ; Erases the entire workspace display.
-  (erase-solid-rectangle 0 0 %window-width% 
+  (erase-solid-rectangle 0 0 %window-width%
                          (- %minimal-coderack-y% 8)))
 
 ;---------------------------------------------
@@ -362,15 +362,15 @@
 (defun display-ccat ()
 ; Displays all graphics representing the current state of the program.
   (clear-window)
-  (if* (and %workspace-graphics% *workspace-initialized*) 
+  (if* (and %workspace-graphics% *workspace-initialized*)
    then (display-workspace))
-  (if* (and %coderack-graphics% *coderack-initialized*) 
+  (if* (and %coderack-graphics% *coderack-initialized*)
    then (display-coderack))
-  (if* %minimal-coderack-graphics% 
+  (if* %minimal-coderack-graphics%
    then (display-minimal-coderack))
-  (if* (and %slipnet-graphics% *slipnet-initialized*) 
+  (if* (and %slipnet-graphics% *slipnet-initialized*)
    then (display-slipnet))
-  (if* %temperature-graphics% 
+  (if* %temperature-graphics%
    then (init-temperature-display)
         (update-temperature-display t)))
 
@@ -381,18 +381,18 @@
   (setq letvec (send *answer-string* :letter-vector))
   (setq %answer-space% ; Space between letters
 	(if* (= (vsize letvec) 1)
-         then 0 
-	 else (round (/ %string-width% (1- (vsize letvec))))))  
+         then 0
+	 else (round (/ %string-width% (1- (vsize letvec))))))
   (loop for letter being the elements of letvec do
-        (setq graphics-obj 
+        (setq graphics-obj
 	      (make-instance 'letter-graphics-obj :parent letter))
-        (send graphics-obj :set-x 
-	      (+ %answer-x% (* (send letter :left-string-position) 
+        (send graphics-obj :set-x
+	      (+ %answer-x% (* (send letter :left-string-position)
 			       %answer-space%)))
 	(send graphics-obj :set-y %y-bottom%)
 	(send graphics-obj :draw)
 	(send letter :set-graphics-obj graphics-obj)))
-      
+
 ;---------------------------------------------
 
 (defun redraw-graphics ()
@@ -400,55 +400,55 @@
   (loop for letter in (send *initial-string* :letter-list) do
 	(send letter :draw))
 
-  (loop for proposed-bond 
+  (loop for proposed-bond
 	in (send *initial-string* :proposed-bond-list) do
-	(if* (send proposed-bond :drawn?) 
+	(if* (send proposed-bond :drawn?)
 	 then (send proposed-bond :draw-proposed)))
 
   (loop for bond in (send *initial-string* :bond-list) do
 	(if* (send bond :drawn?) then (send bond :draw)))
 
-  (loop for proposed-group 
+  (loop for proposed-group
 	in (send *initial-string* :proposed-group-list) do
-	(if* (send proposed-group :drawn?) 
+	(if* (send proposed-group :drawn?)
 	 then (send proposed-group :draw-proposed)))
 
-  (loop for group in (send *initial-string* :group-list) 
+  (loop for group in (send *initial-string* :group-list)
 	when group do
 	(if* (send group :drawn?) then (send group :draw)))
 
-  (loop for replacement 
-	in (send *workspace* :replacement-list) do 
+  (loop for replacement
+	in (send *workspace* :replacement-list) do
 	(send (send replacement :graphics-obj) :draw))
 
-  (loop for proposed-correspondence 
+  (loop for proposed-correspondence
 	in (send *workspace* :proposed-correspondence-list) do
-	(if* (send proposed-correspondence :drawn?) 
+	(if* (send proposed-correspondence :drawn?)
          then (send proposed-correspondence :draw-proposed)))
 
-  (loop for correspondence in (send *workspace* :correspondence-list) 
+  (loop for correspondence in (send *workspace* :correspondence-list)
 	when correspondence do
-	(if* (send correspondence :drawn?) 
+	(if* (send correspondence :drawn?)
          then (send correspondence :draw)))
 
   ; Redraw target-string-graphics.
   (loop for letter in (send *target-string* :letter-list) do
 	(send letter :draw))
 
-  (loop for proposed-bond 
+  (loop for proposed-bond
 	in (send *target-string* :proposed-bond-list) do
-	(if* (send proposed-bond :drawn?) 
+	(if* (send proposed-bond :drawn?)
          then (send proposed-bond :draw-proposed)))
 
   (loop for bond in (send *target-string* :bond-list) do
 	(if* (send bond :drawn?) then (send bond :draw)))
 
-  (loop for proposed-group 
+  (loop for proposed-group
 	in (send *target-string* :proposed-group-list) do
-	(if* (send proposed-group :drawn?) 
+	(if* (send proposed-group :drawn?)
          then (send proposed-group :draw-proposed)))
 
-  (loop for group in (send *target-string* :group-list) 
+  (loop for group in (send *target-string* :group-list)
 	when group do
 	(if* (send group :drawn?) then (send group :draw)))
 
@@ -456,5 +456,3 @@
   (if* %description-graphics% then (redisplay-descriptions)))
 
 ;---------------------------------------------
-
-
