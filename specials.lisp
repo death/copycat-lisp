@@ -149,3 +149,5 @@
 
 (defvar *rule*)
 (defvar *snag-structure-list*)
+
+(defvar *workspace*)

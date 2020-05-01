@@ -15,4 +15,5 @@
    (:file "util")
    (:file "constants")
    (:file "workspace")
-   (:file "workspace-structures")))
+   (:file "workspace-structures")
+   (:file "workspace-strings")))
