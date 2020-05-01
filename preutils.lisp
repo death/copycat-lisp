@@ -12,3 +12,6 @@
 
 (defun string-append (&rest string-designators)
   (apply #'concatenate 'string (mapcar #'string string-designators)))
+
+(defun memq (item list)
+  (member item list))

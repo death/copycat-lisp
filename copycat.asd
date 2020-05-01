@@ -17,7 +17,7 @@
    (:file "workspace")
    (:file "workspace-structures")
    (:file "workspace-strings")
-   ;; (:file "workspace-objects")
+   (:file "workspace-objects")
    ;; (:file "initialization")
    ;; (:file "run")
    ;; (:file "slipnet-def")
