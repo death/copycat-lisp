@@ -31,7 +31,7 @@
    (:file "correspondences")
    (:file "replacements")
    (:file "breakers")
-   ;; (:file "coderack")
+   (:file "coderack")
    ;; (:file "rule")
    ;; (:file "answer")
    ;; (:file "workspace-object-formulas")
