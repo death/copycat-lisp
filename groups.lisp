@@ -153,7 +153,7 @@
 (defmethod (group :print) (&aux sorted-object-list)
   (setq sorted-object-list
 	(sort object-list #'(lambda (x y) (< (send x :left-string-position)
-					     (send y :left-string-position)))))
+					(send y :left-string-position)))))
   (format t "~%")
   (loop for obj in sorted-object-list do
 	(format t "~a" (send obj :pname)))

@@ -182,8 +182,9 @@
 
 (defmethod (coderack :empty) ()
 ; Empty out the coderack.
-  (loop for codelet in (send *coderack* :codelet-list) do
-	(send self :delete-codelet-from-graphics codelet))
+  (when %coderack-graphics%
+    (loop for codelet in (send *coderack* :codelet-list) do
+	  (send self :delete-codelet-from-graphics codelet)))
   (loop for bin in *coderack-bins* do
         (send bin :set-fill-pointer 0))
   (setq *codelet-list* nil))
@@ -270,7 +271,8 @@
   (send codelet :set-time-stamp *codelet-count*)
   (send bin :set-fill-pointer (1+ (send bin :fill-pointer)))
   (push codelet *codelet-list*)
-  (send self :add-codelet-to-graphics codelet))
+  (when %coderack-graphics%
+    (send self :add-codelet-to-graphics codelet)))
 
 ;---------------------------------------------
 
@@ -282,7 +284,8 @@
   (send codelet :set-time-stamp *codelet-count*)
   (send bin :set-fill-pointer (1+ (send bin :fill-pointer)))
   (push codelet *codelet-list*)
-  (send self :add-codelet-to-graphics codelet))
+  (when %coderack-graphics%
+    (send self :add-codelet-to-graphics codelet)))
 
 ;---------------------------------------------
 
@@ -326,7 +329,8 @@
 	      :set-index-in-bin chosen-index))
   (send chosen-bin :set-fill-pointer (1- (send chosen-bin :fill-pointer)))
   (setq *codelet-list* (remove codelet *codelet-list*))
-  (send *coderack* :delete-codelet-from-graphics codelet)
+  (when %coderack-graphics%
+    (send *coderack* :delete-codelet-from-graphics codelet))
   codelet))
 
 ;---------------------------------------------
@@ -351,7 +355,8 @@
               (setq index (send codelet :index-in-bin))
 	      (vset (send bin :vector) index nil)
               (setq *codelet-list* (remove codelet *codelet-list*))
-              (send *coderack* :delete-codelet-from-graphics codelet)
+              (when %coderack-graphics%
+                (send *coderack* :delete-codelet-from-graphics codelet))
               (setq argument (car (send codelet :arguments)))
               (if* (and (not (eq (send codelet :codelet-type) 'breaker))
 			(typep argument 'workspace-structure)

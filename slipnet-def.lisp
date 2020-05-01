@@ -461,7 +461,7 @@
 	  :category-links '(1-length-link)
 	  :lateral-nonslip-links '(1-2-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
              (and (typep object 'group)
   	          (= (send  object :length) 1)))))
 
@@ -475,7 +475,7 @@
 	  :category-links '(2-length-link)
           :lateral-nonslip-links '(2-3-link 2-1-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
              (and (typep object 'group)
   	          (= (send object :length) 2)))))
 
@@ -489,7 +489,7 @@
 	  :category-links '(3-length-link)
           :lateral-nonslip-links '(3-4-link 3-2-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
              (and (typep object 'group)
   	          (= (send object :length) 3)))))
 
@@ -503,7 +503,7 @@
 	  :category-links '(4-length-link)
           :lateral-nonslip-links '(4-5-link 4-3-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
              (and (typep object 'group)
   	          (= (send object :length) 4)))))
 
@@ -517,7 +517,7 @@
 	  :category-links '(5-length-link)
           :lateral-nonslip-links '(5-4-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
              (and (typep object 'group)
   	          (= (send object :length) 5)))))
 
@@ -546,7 +546,7 @@
 	  :lateral-nonslip-links '(leftmost-left-link leftmost-right-link
 			 leftmost-first-link leftmost-last-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
 	     (if* (and (not (send object :spans-whole-string?))
 		       (send object :leftmost-in-string?))
 	      then t else nil))))
@@ -570,7 +570,7 @@
 	  :lateral-nonslip-links '(rightmost-right-link rightmost-left-link
 			 rightmost-first-link rightmost-last-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
              (if* (and (not (send object :spans-whole-string?))
 		       (send object :rightmost-in-string?))
               then t else nil))))
@@ -584,7 +584,7 @@
           :incoming-links '(string-position-category-middle-link)
           :category-links '(middle-string-position-category-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
  	     (let ((left-neighbor
 		       (send object :ungrouped-left-neighbor))
  	           (right-neighbor
@@ -604,7 +604,7 @@
           :category-links '(single-string-position-category-link)
 	  :lateral-slip-links '(single-whole-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
 		   (and (typep object 'letter)
 			(send object :spans-whole-string?)))))
 
@@ -619,7 +619,7 @@
           :category-links '(whole-string-position-category-link)
 	  :lateral-slip-links '(whole-single-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
 		   (and (typep object 'group)
 			(send object :spans-whole-string?)))))
 
@@ -638,7 +638,7 @@
 	  :lateral-slip-links '(first-last-link)
 	  :lateral-nonslip-links '(first-leftmost-link first-rightmost-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
                    (eq (send object :get-descriptor
 			                  plato-letter-category) plato-a))))
 
@@ -655,7 +655,7 @@
 	  :lateral-slip-links '(last-first-link)
 	  :lateral-nonslip-links '(last-leftmost-link last-rightmost-link)
 	  :description-tester
-	  '(lambda (object)
+	  (lambda (object)
                    (eq (send object :get-descriptor
 			                  plato-letter-category) plato-z))))
 
@@ -755,7 +755,7 @@
 	  :lateral-nonslip-links '(predgrp-predecessor-link
 			 predgrp-length-link)
 	  :iterate-group
-	  '(lambda (letter-category)
+	  (lambda (letter-category)
 		   (send letter-category :get-related-node
 			 plato-predecessor))))
 
@@ -776,7 +776,7 @@
 	  :lateral-nonslip-links '(succgrp-successor-link
 			 succgrp-length-link)
  	  :iterate-group
-	  '(lambda (letter-category)
+	  (lambda (letter-category)
 		   (send letter-category :get-related-node
 			 plato-successor))))
 
@@ -793,7 +793,7 @@
 	  :category-links '(samegrp-group-category-link)
 	  :lateral-nonslip-links '(samegrp-sameness-link samegrp-length-link)
   	  :iterate-group
-	  '(lambda (letter-category) letter-category)))
+	  (lambda (letter-category) letter-category)))
 
 
   ; OTHER RELATIONS
@@ -834,7 +834,7 @@
 			    group-letter-link)
 	  :category-links '(letter-object-category-link)
           :lateral-slip-links '(letter-group-link)
-	  :description-tester '(lambda (object) (typep object 'letter))))
+	  :description-tester (lambda (object) (typep object 'letter))))
 
   (setq plato-group
         (make-instance 'slipnode
@@ -847,7 +847,7 @@
 			    letter-group-link)
           :category-links '(group-object-category-link)
           :lateral-slip-links '(group-letter-link)
-	  :description-tester '(lambda (object) (typep object 'group))))
+	  :description-tester (lambda (object) (typep object 'group))))
 
 
   ; CATEGORIES
@@ -1166,8 +1166,8 @@
 (defmethod (slipnode :get-possible-descriptors) (object &aux instance)
 ; Returns a list of the instances of the given node that could be used
 ; as descriptors for the given object.
-  (loop for link in instance-links do
-	(setq instance (send link :to-node))
+  (loop for link in instance-links
+        do (setq instance (send link :to-node))
 	when (funcall (send instance :description-tester) object)
 	collect instance))
 
