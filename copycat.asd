@@ -9,6 +9,7 @@
   :components
   ((:file "packages")
    (:file "lucid-util")
+   (:file "preutils")
    (:file "flavors")
    (:file "specials")
    (:file "util")

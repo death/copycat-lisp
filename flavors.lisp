@@ -6,12 +6,6 @@
 
 ;; Compatibility package for FLAVORS use in Copycat.
 
-(defun keywordize (symbol)
-  (intern (symbol-name symbol) :keyword))
-
-(defun append-symbols (&rest parts)
-  (intern (apply #'concatenate 'string (mapcar #'string parts))))
-
 (defmacro defflavor (name (&rest slots) (&rest super) &rest props)
   (let ((slot-defs
           (loop for slot-name in slots
