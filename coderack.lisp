@@ -95,6 +95,16 @@
 
 ;---------------------------------------------
 
+(defun get-codelet-number (codelet-name)
+  (- (length %codelet-types%) (length (memq codelet-name %codelet-types%))))
+
+;---------------------------------------------
+
+(defun get-codelet-name (codelet-number)
+  (nth codelet-number %codelet-types%))
+
+;---------------------------------------------
+
 (defmethod (coderack :spy) (&aux codelet codelet-type codelet-type-vector
    				      codelet-number num-of-codelets
 				      urgency-sum-vector
