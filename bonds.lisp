@@ -2,7 +2,7 @@
 ; BONDS: This file contains flavors, methods, and codelets for bonds.
 ;---------------------------------------------
 
-(in-package 'user)
+(in-package #:copycat)
 
 (defflavor bond
     (left-string-position

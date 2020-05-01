@@ -25,7 +25,7 @@
    (:file "slipnet-functions")
    ;; (:file "slipnet-graphics")
    (:file "descriptions")
-   ;; (:file "bonds")
+   (:file "bonds")
    ;; (:file "groups")
    ;; (:file "concept-mappings")
    ;; (:file "correspondences")
